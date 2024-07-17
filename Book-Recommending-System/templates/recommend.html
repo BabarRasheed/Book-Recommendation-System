@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Recommender System</title>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css">
+    <style>
+        ...
+        .book-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); /* Create responsive grid */
+            gap: 20px; /* Space between items */
+        }
+        
+        .book-item {
+            background-color: #fff; /* White background */
+            border-radius: 10px; /* Rounded corners */
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Light shadow */
+            transition: box-shadow 0.3s ease; /* Smooth transition for shadow */
+            display: flex;
+            flex-direction: column; /* Vertical layout */
+            overflow: hidden; /* Hide overflow */
+            text-align: center; /* Center text */
+            /* Option 1: Set a fixed height */
+            height: 400px;  /* Adjust the height value as needed */
+            /* Option 2: Set an aspect ratio */
+            aspect-ratio: 3 / 2;
+        }
+        ...
+    </style>
+</head>
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container">
+            <a class="navbar-brand" href='/'>My Book Recommender</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/recommend">Recommend</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Contact</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <h1 class="text-center mb-4" style="font-size:50px">Recommend Books</h1>
+                <form action="/recommend_books" method='post'>
+                    <input name='user_input' type="text" class="form-control"><br>
+                    <input type="submit" class="btn btn-lg btn-warning">
+                </form>
+            </div>
+            {% if data %}
+                {% for i in data %}
+                    <div class="col-md-3 col-sm-6">
+                        <div class="book-container">
+                            <img class="book-image" src="{{ i[2] }}" alt="Book Image">
+                            <div class="book-details">
+                                <p class="book-title">Book: {{ i[0] }}</p>
+                                <p class="author">Author: {{ i[1] }}</p>
+                                <p class="description">{{ i[3] }}</p>
+                            </div>
+                        </div>
+                    </div>                
+                {% endfor %}
+            {% elif error %}
+                <p>{{ error }}</p>
+            {% else %}
+                <p>No Recommendation Available</p>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Latest compiled JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
